@@ -18,6 +18,7 @@ operaciones:
 
 import os
 import sys
+from back import control
 
 class MovieCatalog:
     def __init__(self, name):
@@ -25,38 +26,36 @@ class MovieCatalog:
         self.__path_file = f"movies/{name}.txt"
         self.movies = []
 
-        def add_movies(self, movie):
-            self.movies.append(movie)
-            with open(self.__path_file, 'a') as file:
-                file.write(f"{movie}\n")
-                print(f"Pelicula {movie} agregada correctamente") 
-        
-        def list(self):
-            with open(self.__path_file, 'r') as file:
-                movies = file.readlines()
-                for movie in movies:
-                    print(movie.strip())
+    def add_movies(self, movie):
+        self.movies.append(movie)
+        with open(self.__path_file, "a", encoding="utf-8") as file:
+            file.write(f"{movie}\n")
+        print(f"Película {movie} agregada correctamente")
 
+    def list(self):
+        with open(self.__path_file, "r", encoding="utf-8") as file:
+            for line in file:
+                print(line.strip())
 
-        def search(self, movie_name):
-            for movie in self.movies:
-                if movie.name == movie_name:
-                    return movie
-                else:
-                    print(f"Pelicula {movie_name} no encontrada")
+    def search(self, movie_name):
+        for movie in self.movies:
+            if movie.name == movie_name:
+                return movie
+        print(f"Película {movie_name} no encontrada")
+        return None
 
-        def modify_movie(self, movie_name):
+    def modify_movie(self, movie_name):
         for i, movie in enumerate(self.movies):
             if movie_name.lower() in movie.lower():
                 print(f"Película encontrada: {movie}")
                 new_name = input("Ingrese el nuevo nombre: ")
                 self.movies[i] = self.movies[i].replace(movie.split(" | ")[0], new_name)
                 self.__save_to_file()
-                print(f"Película modificada correctamente.")
+                print("Película modificada correctamente.")
                 return
         print(f"Película '{movie_name}' no encontrada.")
 
-        def delete_movie(self, movie_name):
+    def delete_movie(self, movie_name):
         for movie in self.movies:
             if movie_name.lower() in movie.lower():
                 self.movies.remove(movie)
@@ -65,16 +64,16 @@ class MovieCatalog:
                 return
         print(f"Película '{movie_name}' no encontrada.")
 
-        def delete(self):
-            if os.path.exists(self.__path_file):
-                os.remove(self.__path_file)
-                print(f"Catálogo {self.__name} de películas eliminado correctamente")
-            else:
-                print(f"Catálogo {self.__name} de películas no encontrado")
+    def delete(self):
+        if os.path.exists(self.__path_file):
+            os.remove(self.__path_file)
+            print(f"Catálogo {self.__name} de películas eliminado correctamente")
+        else:
+            print(f"Catálogo {self.__name} de películas no encontrado")
 
-        def exit(self):
-            print("Saliendo del programa, gracias, hasta luego!")
-            sys.exit(0)
+    def exit(self):
+        print("Saliendo del programa, gracias, hasta luego!")
+        sys.exit(0)
 
 
      
@@ -104,10 +103,10 @@ def main():
 
     if os.path.exists(f"movies/{name_catalog}.txt"):
         with open(f"{name_catalog}.txt", "r") as file:
-        print(f"Catálogo '{name_catalog}' cargado exitosamente. Se abrirá para modificarlo.")
+            print(f"Catálogo '{name_catalog}' cargado exitosamente. Se abrirá para modificarlo.")
     else:
         with open (f"{name_catalog}.txt", 'w') as file:
-        print(f"Catálogo '{name_catalog}' creado exitosamente.")
+            print(f"Catálogo '{name_catalog}' creado exitosamente.")
 
     while True:
         print("\n---MENÚ ---") 
@@ -122,6 +121,10 @@ def main():
         option = input("Seleccione una opción: ").strip()
 
         if option == "1":
+            catalog_name = input(f"Ingrese el nombre del catalogo a modificar: ")
+
+            control(catalog_name)
+
             name = input("Nombre: ")
             cast = input("Elenco: ")
             description = input("Descripción: ")
@@ -129,26 +132,34 @@ def main():
             duration = input("Duracion (min): ")
             genre = input("Genero: ")
             year = input("Año: ")
+
             movie = Movie(name, cast, description, director, duration, genre, year)
             catalog,add_movie(movie)
+           
+            print(f"Película '{nombre_pelicula}' agregada al catálogo.")
         
         elif option == "2":
             name = input ("Ingrese el nombre de la pelicula a modificar: ")
             catalog.modify_movie(name)
 
         elif option == "3":
-            catalog.list_movies()
+            name_catalog_list = input("Ingrese el nombre del catálogo que desea listar: ").strip()
+            temp_catalog = MovieCatalog(name_catalog_list)
+
+            if os.path.exists(f"movies/{name_catalog_list}.txt"):
+                print("Listado de películas del catálogo:")
+                temp_catalog.list()
+            else:
+                print("No existe el catálogo. Elija la opción para crear uno.")   
 
         elif option == "4":
             name = input("Ingrese el nombre de la pelicula a eliminar: ")
             catalog.delete_movie(name)
 
         elif option == "6":
-            confirm = input("¿Está seguro que desea eliminar el catalogo (S/N):  ")
-            if confirm == "S"
-            catalog.delete_catalog()
-            break    
-
+              catalog_name = input("Ingrese el nombre del catalogo que desea eliminar: ")
+              MovieCatalog(catalog_name).delete()     
+          
         elif option == "7":
             print("Saliendo del programa. ¡Hasta luego!")
             sys.exit(0)
