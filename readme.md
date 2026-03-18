@@ -1,6 +1,6 @@
 # 🎬 Gestor de Catálogos de Películas
 
-Programa de consola desarrollado en Python que permite crear y gestionar catálogos de películas, aplicando conceptos de Programación Orientada a Objetos.
+Programa desarrollado en Python que permite crear y gestionar catálogos de películas, con interfaz gráfica construida con CustomTkinter.
 
 ---
 
@@ -14,7 +14,8 @@ Este proyecto permite al usuario crear múltiples catálogos de películas, agre
 
 ```
 python-film-catalog/
-├── main.py       → Menú principal y lógica de navegación
+├── app.py        → Interfaz gráfica (CustomTkinter)
+├── main.py       → Versión de consola
 ├── models.py     → Clases Movie y MovieCatalog
 ├── back.py       → Funciones auxiliares (control, select_catalog)
 └── README.md
@@ -30,14 +31,20 @@ python-film-catalog/
   - `control()`: verifica si un catálogo existe e informa al usuario.
   - `select_catalog()`: solicita el nombre del catálogo, valida que exista y lo retorna cargado.
 
-- **`main.py`** — Punto de entrada del programa. Muestra el menú y llama a las funciones y métodos correspondientes según la opción elegida.
+- **`app.py`** — Interfaz gráfica con CustomTkinter. Muestra el menú con botones y cada pantalla se construye con funciones simples.
+
+- **`main.py`** — Versión de consola del programa. Muestra el menú en terminal y llama a las funciones correspondientes.
 
 ---
 
 ## ⚙️ Requisitos
 
 - Python 3.x
-- No requiere librerías externas
+- CustomTkinter
+
+```bash
+pip install customtkinter
+```
 
 ---
 
@@ -50,7 +57,19 @@ git clone https://github.com/lauramarcelli/film-catalogue-python.git
 cd film-catalogue-python
 ```
 
-2. Ejecutá el programa:
+2. Instalá la dependencia:
+
+```bash
+pip install customtkinter
+```
+
+3. Ejecutá el programa con interfaz gráfica:
+
+```bash
+python app.py
+```
+
+O en versión consola:
 
 ```bash
 python main.py
@@ -60,36 +79,34 @@ python main.py
 
 ## 📌 Uso
 
-Al ejecutar el programa se muestra el menú principal:
+Al ejecutar `app.py` se abre una ventana con el menú principal:
 
 ```
-============================================================
-   Bienvenido al Gestor de Catálogos de Películas
-============================================================
+🎬 Gestor de Películas
+¿Qué querés hacer hoy?
 
---- MENÚ ---
-1. Agregar Catálogo
-2. Agregar Película
-3. Modificar Película
-4. Listar Películas
-5. Buscar Película
-6. Eliminar Película
-7. Eliminar Catálogo
-8. Salir
+➕ Agregar Catálogo
+🎬 Agregar Película
+✏️ Modificar Película
+📋 Listar Películas
+🔍 Buscar Película
+🗑️ Eliminar Película
+❌ Eliminar Catálogo
 ```
+
+Cada opción abre una pantalla con los campos necesarios y un botón **← Volver al menú** para navegar hacia atrás.
 
 ### Opciones del menú
 
 | Opción | Descripción |
 |--------|-------------|
-| 1 | Crea un nuevo catálogo (archivo `.txt`) en el proyecto |
-| 2 | Agrega una película a un catálogo existente |
-| 3 | Modifica un atributo específico de una película |
-| 4 | Lista todas las películas de un catálogo |
-| 5 | Busca una película por nombre |
-| 6 | Elimina una película de un catálogo |
-| 7 | Elimina un catálogo completo |
-| 8 | Sale del programa |
+| ➕ Agregar Catálogo | Crea un nuevo catálogo (archivo `.txt`) en el proyecto |
+| 🎬 Agregar Película | Agrega una película a un catálogo existente |
+| ✏️ Modificar Película | Modifica un atributo específico de una película |
+| 📋 Listar Películas | Lista todas las películas de un catálogo |
+| 🔍 Buscar Película | Busca por nombre en **todos los catálogos** automáticamente |
+| 🗑️ Eliminar Película | Elimina una película de un catálogo |
+| ❌ Eliminar Catálogo | Elimina un catálogo completo |
 
 ---
 
@@ -99,7 +116,7 @@ Cada película almacena los siguientes datos:
 
 | Atributo | Descripción |
 |----------|-------------|
-| Nombre | Título de la película |
+| Título | Nombre de la película |
 | Elenco | Actores principales |
 | Descripción | Sinopsis breve |
 | Director | Nombre del director/a |
@@ -123,40 +140,30 @@ John Wick | Keanu Reeves | Ex asesino busca venganza | Chad Stahelski | 101 min 
 ## 👩‍💻 Ejemplo de uso
 
 ```
-Seleccione una opción: 1
-Ingrese el nombre del nuevo catálogo: Accion
-Catálogo 'Accion' creado exitosamente.
+➕ Agregar Catálogo
+  Nombre del catálogo: Accion
+  ✅ Catálogo 'Accion' creado exitosamente.
 
-Seleccione una opción: 2
-Ingrese el nombre del catálogo donde desea agregar la película: Accion
-Ingrese el nombre de la película: Matrix
-Ingrese el elenco: Keanu Reeves
-Ingrese descripción de la película: Hacker descubre la verdad sobre su realidad
-Ingrese el Director/a: Wachowski
-Ingrese la duración (min): 136
-Ingrese el género: Ciencia ficción
-Ingrese el año: 1999
-Película 'Matrix | Keanu Reeves | ...' agregada correctamente.
-
-Seleccione una opción: 4
-Ingrese el nombre del catálogo que desea listar: Accion
-
-============================================================
-  CATÁLOGO: ACCION
-============================================================
-
-  #1
-  Título:      Matrix
-  Elenco:      Keanu Reeves
+🎬 Agregar Película
+  Nombre del catálogo: Accion
+  Título: Matrix
+  Elenco: Keanu Reeves
   Descripción: Hacker descubre la verdad sobre su realidad
-  Director:    Wachowski
-  Duración:    136 min
-  Género:      Ciencia ficción
-  Año:         1999
-  ----------------------------------------------------------
+  Director/a: Wachowski
+  Duración (min): 136
+  Género: Ciencia ficción
+  Año: 1999
+  ✅ Película 'Matrix' agregada correctamente.
 
-  Total: 1 película/s
-============================================================
+🔍 Buscar Película
+  Nombre de la película: Matrix
+  ✅ Matrix — catálogo: Accion
+     🎭 Elenco:      Keanu Reeves
+     📝 Descripción: Hacker descubre la verdad sobre su realidad
+     🎬 Director:    Wachowski
+     ⏱️ Duración:    136 min
+     🎞️ Género:      Ciencia ficción
+     📅 Año:         1999
 ```
 
 ---
@@ -169,10 +176,11 @@ Ingrese el nombre del catálogo que desea listar: Accion
 - Properties (`@property`)
 - Manejo de archivos `.txt` (lectura, escritura, eliminación)
 - Modularización en múltiples archivos
-- Manejo de flujo con `continue` y `return`
+- Interfaz gráfica con CustomTkinter
+- Funciones como ciudadanos de primera clase (callbacks en botones)
 
 ---
 
-## ✍️ Autora: Laura Marcelli
+## ✍️ Autora Laura Marcelli
 
 Desarrollado como proyecto práctico del curso de Python — ADA ITW.

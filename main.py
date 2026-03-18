@@ -16,8 +16,26 @@ operaciones:
 7. Salir
 """
 
+""" El objetivo consiste en desarrollar un programa que permita llevar un registro de
+películas aplicando conceptos de programación orientada a objetos.
+El funcionamiento esperado es el siguiente:
+• Al ejecutar el programa se solicita ingresar el nombre del catálogo de películas:
+• Si el catálogo de películas no existe se creará uno nuevo. Este catálogo se va a
+guardar en un archivo txt donde posteriormente se guardarán las películas. Si el
+catálogo existe se podrá seguir modificando el archivo.
+• Se debe mostrar un menú de opciones, que permita realizar las siguientes
+operaciones:
+1. Agregar Película
+2. Modificar Pelicula
+3. Listar Películas
+4. Buscar Pelicula          
+5. Eliminar Pelicula    
+6. Eliminar Catálogo Películas
+7. Salir
+"""
+
 from back import control, select_catalog
-from models import Movie
+from models import Movie, MovieCatalog
 import os
 import sys
 
@@ -81,11 +99,17 @@ def main():
             catalog.list()
 
         elif option == "5":
-            catalog = select_catalog("buscar")
-            if not catalog:
-                continue
             name = input("Ingrese el nombre de la película a buscar: ")
-            catalog.search(name)
+            all_catalogs = [f.replace(".txt", "") for f in os.listdir(".") if f.endswith(".txt")]
+            found = False
+            for cat_name in all_catalogs:
+                catalog = MovieCatalog(cat_name)
+                result = catalog.search(name)
+                if result:
+                    found = True
+                    print(f"  → Encontrada en el catálogo: '{cat_name}'")
+            if not found:
+                print(f"Película '{name}' no encontrada en ningún catálogo.")
 
         elif option == "6":
             catalog = select_catalog("eliminar la película")
